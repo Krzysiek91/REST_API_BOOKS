@@ -6,9 +6,9 @@ include_once('book.php');
 //STRUKTURA DO IMPORTU W PLIKU dump.sql
 
 $servername = "localhost";
-$username = "";
-$password = "";
-$baseName = "";
+$username = "root";
+$password = "coderslab";
+$baseName = "REST";
 
 $conn = new mysqli($servername, $username, $password, $baseName);
 
