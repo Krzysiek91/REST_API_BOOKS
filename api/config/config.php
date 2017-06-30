@@ -8,7 +8,7 @@ include_once('book.php');
 $servername = "localhost";
 $username = "root";
 $password = "coderslab";
-$baseName = "REST";
+$baseName = "books";
 
 $conn = new mysqli($servername, $username, $password, $baseName);
 

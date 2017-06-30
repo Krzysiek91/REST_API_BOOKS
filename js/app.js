@@ -10,25 +10,27 @@ function books() {
     $.ajax({
         url: "api/books.php",
         type: 'GET',
-        data: "author, name, book_desc",
+      //  data: "author, name, book_desc",
         dataType: 'JSON',
 
-        success: function (json) {
+        success: function (data) {
 
-            var booksTable = $('table .books');
+            var booksTable = $('table.books');
 
-            for (var key in json){
+            console.log(data);
+
+            for (var index in data){
 
                 var bookData =
-                    '<tr>' +
-                    '<td>' + json[key].name + '</td>' +
-                    '<td>' + json[key].author + '</td>' +
-                    '</tr>';
+                    $('<tr>' +
+                    '<td>' + data[index].name + '</td>' +
+                    '<td>' + data[index].author + '</td>' +
+                    '</tr>');
 
                 var bookDescription =
-                    '<tr>' +
-                    '<td>' + json[key].book_desc + '</td>' +
-                    '</tr>';
+                    $('<tr>' +
+                    '<td>' + data[index].book_desc + '</td>' +
+                    '</tr>');
 
                 booksTable.append(bookData);
                 booksTable.append(bookDescription);
