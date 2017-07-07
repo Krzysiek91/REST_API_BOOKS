@@ -73,7 +73,7 @@ class Book implements JsonSerializable
         }
     }
 
-    public function create( $name, $author, $book_desc)
+    public function create($name, $author, $book_desc)
     {
         $safe_name = Self::$conn->real_escape_string($name);
         $safe_author = Self::$conn->real_escape_string($author);

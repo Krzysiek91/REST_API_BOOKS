@@ -19,7 +19,20 @@
 }
 
 .options{
-    text-align: right;
+    text-align: center;
+    font-style: italic;
+}
+
+.add{
+    color: green;
+}
+
+.modify{
+    color: orange;
+}
+
+.delete{
+    color: red;
 }
 
 
@@ -36,6 +49,7 @@
 .description{
     display: none;
     padding: 1% 2% 1% 2%;
+    font-style: italic;
 }
 
 .hr{
@@ -43,4 +57,9 @@
     border-top: 1px dashed #000;
     width: 100%;
     margin: 1% 0 1% 0;
+}
+
+#addForm{
+    margin: 20px 0 20px 0;
+    display: none;
 }

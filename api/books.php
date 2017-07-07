@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
     } else {
         
-        $name = "Nie podano nazwy książki";
+        $name = "Did not enter the book title";
         
     }
     
