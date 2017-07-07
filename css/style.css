@@ -1,8 +1,46 @@
+.addBook{
+    background-color: orange;
+    text-align: left;
+    color: #dddddd;
+    text-decoration: underline;
+}
 
-th{
-    width: 50%;
+.addBook h3{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.header{
+    color: #ddd;
+    background-color: #000080;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: bottom;
+}
+
+.options{
+    text-align: right;
+}
+
+
+.plus{
+    background-color: #dddddd;
+    color: #F5F5F5;
+}
+
+.author, .title{
+    font-weight: 800;
+    padding-left: 6%;
 }
 
 .description{
     display: none;
+    padding: 1% 2% 1% 2%;
+}
+
+.hr{
+    height: 1px;
+    border-top: 1px dashed #000;
+    width: 100%;
+    margin: 1% 0 1% 0;
 }

@@ -22,29 +22,35 @@ function books() {
 
                 // create div with row class and id from DB
                 var id = data[index]['id'];
-                var row = $('<div class="row" data-id="' + id + '">');
+                var row1 = $('<div class="row" data-id="' + id + '">');
 
-                var divColName = $('<div>').addClass('name').addClass('col-xs-4');
-                divColName.text(data[index]['name']);
+                var divTitle = $('<div>').addClass('title').addClass('col-xs-5');
+                divTitle.html('<span class="glyphicon glyphicon-plus btn btn-xs plus"></span>&nbsp;' + data[index]['name']);
 
-                var divColAuthor = $('<div>').addClass('author').addClass('col-xs-4');
-                divColAuthor.text(data[index]['author']);
+                var divAuthor = $('<div>').addClass('author').addClass('col-xs-5');
+                divAuthor.text(data[index]['author']);
+                
 
-                var divColDescription = $('<div>').addClass('description').addClass('col-sm-8');
-                divColDescription.text(data[index]['book_desc']);
+                row1.append(divTitle);
+                row1.append(divAuthor);
+                booksListContainer.append(row1);
 
-                row.append(divColName);
-                row.append(divColAuthor);
-                row.append(divColDescription);
+                var row2 = $('<div class="row">');
+                var divDescription = $('<div>').addClass('description').addClass('col-xs-10');
 
-                booksListContainer.append(row);
+                row2.append(divDescription);
+                booksListContainer.append(row2);
+
+
+                var hr = $('<div class="hr">');
+                booksListContainer.append(hr);
             }
         }
     })
 
-    booksListContainer.on('click', 'div.name', function (event) {
-        var bookID = $(this).parent().data('id');
-        var divDesc = $(this).next().next();
+    booksListContainer.on('click', '.plus', function (event) {
+        var bookID = $(this).parent().parent().data('id');
+        var divDesc = $(this).parent().parent().next().children();
 
         $.ajax({
             url: "api/books.php?id=" + bookID,
@@ -54,12 +60,13 @@ function books() {
             success: function (data) {
 
                 var description = data[bookID]['book_desc'];
+
                 divDesc.text(description);
+
                 divDesc.slideToggle();
             }
         })
     });
-
 
 }
 
