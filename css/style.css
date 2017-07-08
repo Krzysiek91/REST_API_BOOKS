@@ -1,16 +1,5 @@
-.addBook{
-    background-color: orange;
-    text-align: left;
-    color: #dddddd;
-    text-decoration: underline;
-}
-
-.addBook h3{
-    display: inline-block;
-    vertical-align: middle;
-}
-
 .header{
+    padding: 1% 0 1% 0;
     color: #ddd;
     background-color: #000080;
     font-weight: bold;
@@ -23,20 +12,16 @@
     font-style: italic;
 }
 
-.add{
-    color: green;
-}
-
-.modify{
+.modify_book_btn{
     color: orange;
 }
 
-.delete{
+.delete_book_btn{
     color: red;
 }
 
 
-.plus{
+.open_form_btn{
     background-color: #dddddd;
     color: #F5F5F5;
 }
@@ -59,7 +44,7 @@
     margin: 1% 0 1% 0;
 }
 
-#addForm{
+#add_book_div{
     margin: 20px 0 20px 0;
     display: none;
 }

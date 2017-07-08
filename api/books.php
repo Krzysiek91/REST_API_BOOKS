@@ -36,7 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
  * Add book
  */
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
+
+
     if (!(strlen(trim($_POST['name'])) == 0)) {
         
         $name = ($_POST['name']);
@@ -61,15 +62,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
  * Remove book
  */
 if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
-    parse_str(file_get_contents("php://input"), $del_vars);
-    $id = $del_vars['id'];
 
+    $id = $_GET['id'];
     $book = new Book();
     $book->loadFromDB($id);
     $book->deleteFromDB();
-    
 }
-
 
 /*
  * End point

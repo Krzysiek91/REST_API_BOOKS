@@ -1,58 +1,54 @@
 $(document).ready(function () {
 
-    booksDisplay();
-});
+    var booksListContainer = $('.books-list');
 
-var booksListContainer = $('.books-list');
+    displayAllBooks();
 
 // Displaying all books that are in DB
-function booksDisplay() {
+    function displayAllBooks() {
 
-    $.ajax({
-        url: "api/books.php",
-        type: 'GET',
-        data: "author, name, book_desc",
-        dataType: 'JSON',
+        $.ajax({
+            url: "api/books.php",
+            type: 'GET',
+            data: "author, name, book_desc",
+            dataType: 'JSON',
 
-        success: function (data) {
+            success: function (data) {
 
-            console.log(data);
+                for (var index in data) {
 
-            for (var index in data) {
+                    // create div with row class and id from DB
+                    var id = data[index]['id'];
 
-                // create div with row class and id from DB
-                var id = data[index]['id'];
+                    var row1 = $('<div class="row" data-id="' + id + '">');
+                    var divTitle = $('<div>').addClass('title').addClass('col-xs-5');
+                    divTitle.html('<span class="glyphicon glyphicon-plus btn btn-xs toggle_desc_btn"></span>&nbsp;' + data[index]['name']);
+                    var divAuthor = $('<div>').addClass('author').addClass('col-xs-5');
+                    divAuthor.text(data[index]['author']);
+                    var options = $('<div class="options"><span class="modify_book_btn btn btn-xs">modify</span><span class="delete_book_btn btn btn-xs">delete</span></div>').addClass('col-xs-2');
 
-                var row1 = $('<div class="row" data-id="' + id + '">');
-                var divTitle = $('<div>').addClass('title').addClass('col-xs-5');
-                divTitle.html('<span class="glyphicon glyphicon-plus btn btn-xs plus"></span>&nbsp;' + data[index]['name']);
-                var divAuthor = $('<div>').addClass('author').addClass('col-xs-5');
-                divAuthor.text(data[index]['author']);
-                var options = $('<div class="options"><span class="add btn btn-xs">add</span><span class="modify btn btn-xs">modify</span><span class="delete btn btn-xs">delete</span></div>').addClass('col-xs-2');
+                    row1.append(divTitle);
+                    row1.append(divAuthor);
+                    row1.append(options);
+                    booksListContainer.append(row1);
 
-                row1.append(divTitle);
-                row1.append(divAuthor);
-                row1.append(options);
-                booksListContainer.append(row1);
+                    var row2 = $('<div class="row">');
+                    var divDescription = $('<div>').addClass('description').addClass('col-xs-12 col-xm-10');
 
-                var row2 = $('<div class="row">');
-                var divDescription = $('<div>').addClass('description').addClass('col-xs-12 col-xm-10');
-
-                row2.append(divDescription);
-                booksListContainer.append(row2);
+                    row2.append(divDescription);
+                    booksListContainer.append(row2);
 
 
-                var hr = $('<div class="hr">');
-                booksListContainer.append(hr);
+                    var hr = $('<div class="hr">');
+                    booksListContainer.append(hr);
+                }
             }
-        }
-    })
+        })
+    }
 
 
-
-
-
-    booksListContainer.on('click', '.plus', function (event) {
+//toggling description of each book
+    booksListContainer.on('click', '.toggle_desc_btn', function (event) {
         var bookID = $(this).parent().parent().data('id');
         var divDesc = $(this).parent().parent().next().children();
 
@@ -70,12 +66,105 @@ function booksDisplay() {
     });
 
 
+//opening Add Book Form
 
-    var addForm = $('#addForm');
+    var addForm = $('#add_book_div');
+    var openFormButton = $('.open_form_btn');
 
-    booksListContainer.on('click', '.add' || '.cancle', function (event) {
-        addForm.slideToggle();
+    openFormButton.on('click', function (event) {
+        addForm.slideDown();
     });
 
-}
+//hide Add Book Form
+    var hideFormButton = $('.hide_form_btn');
+
+    hideFormButton.on('click', function (event) {
+        addForm.slideUp();
+    });
+
+
+//adding book to DB
+    var addBookButton = $('.add_book_btn');
+
+    addBookButton.on('click', function () {
+
+        var addBookForm = $('#add_book_form');
+        // Serialize a form to a query string that could be sent to a server in an Ajax request.
+        var serializedAddBookForm = addBookForm.serialize();
+
+        $.ajax({
+            url: "api/books.php",
+            data: serializedAddBookForm,
+            type: 'POST',
+
+            success: function () {
+
+                console.log("git:)");
+                //clear the form
+                addBookForm.trigger('reset');
+                displayAllBooks();
+            }
+        });
+    });
+
+    //deleting Book
+    booksListContainer.on('click', '.delete_book_btn', function () {
+
+        event.stopPropagation();
+        event.preventDefault();
+
+        var bookID = $(this).parent().parent().data('id');
+
+        $.ajax({
+            url: 'api/books.php?id=' + bookID,
+            type: 'DELETE',
+
+            success: function (){
+    //removing selected book (title+author, description, hr)
+                console.log(bookID);
+                var row1ToDelete = $('.row[data-id=' + bookID + ']');
+                var row2ToDelete = row1ToDelete.next();
+                var hr = row2ToDelete.next();
+                row1ToDelete.remove();
+                row2ToDelete.remove();
+                hr.remove();
+            }
+        });
+
+    });
+
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

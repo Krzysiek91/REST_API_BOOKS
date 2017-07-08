@@ -14,19 +14,13 @@
 </head>
 <body>
 <div class="header container-fluid">
-    <div class="col-xs-5">
-        <h3>Title</h3>
-    </div>
-    <div class="col-xs-5">
-        <h3>Author</h3>
-    </div>
-    <div class="col-xs-2">
-        <h3>Options</h3>
-    </div>
+    <div class="col-xs-5"><span>Title</span></div>
+    <div class="col-xs-5"><span>Author</span></div>
+    <div class="col-xs-2"><span>New Book</span>&nbsp;<span class="glyphicon glyphicon-plus btn btn-xs open_form_btn"></span></div>
 </div>
 
-<div id="addForm" class="container col-xs-12 col-sm-6">
-    <form action="" method="post" role="form" id="add_book">
+<div id="add_book_div" class="container col-xs-12 col-sm-6">
+    <form action="" method="post" role="form" id="add_book_form">
         <div class="form-wrapper">
             <div class="form-group">
                 <label>Title
@@ -41,8 +35,8 @@
                     <textarea class="form-control" name="book_desc" id="book_desc" rows="4" cols="50" maxlength="255" placeholder="description..."></textarea>
                 </label>
             </div>
-            <button type="submit" class="btn">add</button>
-            <button class="btn cancel">cancel</button>
+            <span type="submit" class="btn add_book_btn">add book</span>
+            <span class="btn hide_form_btn">hide form</span>
         </div>
     </form>
 </div>
