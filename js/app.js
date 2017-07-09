@@ -1,8 +1,8 @@
 $(document).ready(function () {
 
-    var booksListContainer = $('.books-list');
-
     displayAllBooks();
+
+    var booksListContainer = $('.books_list');
 
 // Displaying all books that are in DB
     function displayAllBooks() {
@@ -15,32 +15,40 @@ $(document).ready(function () {
 
             success: function (data) {
 
-                for (var index in data) {
+                var existingRows = booksListContainer.find('.row[data-id]');
+                var existingRowsIDs = [];
+                existingRows.each(function () {
+                    existingRowsIDs.push($(this).data('id'));
+                });
 
+                for (var index in data) {
                     // create div with row class and id from DB
                     var id = data[index]['id'];
 
-                    var row1 = $('<div class="row" data-id="' + id + '">');
-                    var divTitle = $('<div>').addClass('title').addClass('col-xs-5');
-                    divTitle.html('<span class="glyphicon glyphicon-plus btn btn-xs toggle_desc_btn"></span>&nbsp;' + data[index]['name']);
-                    var divAuthor = $('<div>').addClass('author').addClass('col-xs-5');
-                    divAuthor.text(data[index]['author']);
-                    var options = $('<div class="options"><span class="modify_book_btn btn btn-xs">modify</span><span class="delete_book_btn btn btn-xs">delete</span></div>').addClass('col-xs-2');
+                    if ($.inArray(parseInt(id), existingRowsIDs) === -1) {
 
-                    row1.append(divTitle);
-                    row1.append(divAuthor);
-                    row1.append(options);
-                    booksListContainer.append(row1);
+                        var row1 = $('<div class="row" data-id="' + id + '">');
+                        var divTitle = $('<div>').addClass('title').addClass('col-xs-5');
+                        divTitle.html('<span class="glyphicon glyphicon-plus btn btn-xs toggle_desc_btn"></span>&nbsp;' + data[index]['name']);
+                        var divAuthor = $('<div>').addClass('author').addClass('col-xs-5');
+                        divAuthor.text(data[index]['author']);
+                        var options = $('<div class="options"><span class="modify_book_btn btn btn-xs">modify</span><span class="delete_book_btn btn btn-xs">delete</span></div>').addClass('col-xs-2');
 
-                    var row2 = $('<div class="row">');
-                    var divDescription = $('<div>').addClass('description').addClass('col-xs-12 col-xm-10');
+                        row1.append(divTitle);
+                        row1.append(divAuthor);
+                        row1.append(options);
+                        booksListContainer.append(row1);
 
-                    row2.append(divDescription);
-                    booksListContainer.append(row2);
+                        var row2 = $('<div class="row">');
+                        var divDescription = $('<div>').addClass('description').addClass('col-xs-12 col-xm-10');
+
+                        row2.append(divDescription);
+                        booksListContainer.append(row2);
 
 
-                    var hr = $('<div class="hr">');
-                    booksListContainer.append(hr);
+                        var hr = $('<div class="hr">');
+                        booksListContainer.append(hr);
+                    }
                 }
             }
         })
@@ -86,7 +94,9 @@ $(document).ready(function () {
 //adding book to DB
     var addBookButton = $('.add_book_btn');
 
-    addBookButton.on('click', function () {
+    addBookButton.on('click', function (event) {
+
+        event.preventDefault();
 
         var addBookForm = $('#add_book_form');
         // Serialize a form to a query string that could be sent to a server in an Ajax request.
@@ -97,9 +107,8 @@ $(document).ready(function () {
             data: serializedAddBookForm,
             type: 'POST',
 
-            success: function () {
+            success: function (data, textStatus, jqXHR) {
 
-                console.log("git:)");
                 //clear the form
                 addBookForm.trigger('reset');
                 displayAllBooks();
@@ -121,7 +130,6 @@ $(document).ready(function () {
 
             success: function (){
     //removing selected book (title+author, description, hr)
-                console.log(bookID);
                 var row1ToDelete = $('.row[data-id=' + bookID + ']');
                 var row2ToDelete = row1ToDelete.next();
                 var hr = row2ToDelete.next();
