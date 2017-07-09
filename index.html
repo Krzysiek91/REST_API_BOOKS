@@ -19,6 +19,7 @@
     <div class="col-xs-2"><span>New Book</span>&nbsp;<span class="glyphicon glyphicon-plus btn btn-xs open_form_btn"></span></div>
 </div>
 
+<!-- add book form -->
 <div id="add_book_div" class="container col-xs-12 col-sm-6">
     <form action="" method="post" role="form" id="add_book_form">
         <div class="form-wrapper">
@@ -36,7 +37,31 @@
                 </label>
             </div>
             <span type="submit" class="btn add_book_btn">add book</span>
-            <span class="btn hide_form_btn">hide form</span>
+            <span class="btn hide_add_form_btn">hide form</span>
+        </div>
+    </form>
+</div>
+
+<!-- modify book form -->
+
+<div id="modify_book_div" class="container col-xs-12 col-sm-6">
+    <form action="" method="post" role="form" id="modify_book_form">
+        <div class="form-wrapper">
+            <div class="form-group">
+                <label>Title
+                    <input type="text" class="form-control" name="name" id="modify_name" placeholder="title...">
+                </label>
+                <label>Author
+                    <input type="text" class="form-control" name="author" id="modify_author" placeholder="author...">
+                </label>
+            </div>
+            <div class="form-group">
+                <label>Description
+                    <textarea class="form-control" name="book_desc" id="modify_book_desc" rows="4" cols="50" maxlength="255" placeholder="description..."></textarea>
+                </label>
+            </div>
+            <span type="submit" class="btn modify_form_btn">modify book</span>
+            <span class="btn hide_modify_form_btn">hide form</span>
         </div>
     </form>
 </div>

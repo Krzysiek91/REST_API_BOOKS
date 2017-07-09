@@ -12,7 +12,7 @@
     font-style: italic;
 }
 
-.modify_book_btn{
+.modify_form_btn{
     color: orange;
 }
 
@@ -45,6 +45,11 @@
 }
 
 #add_book_div{
+    margin: 20px 0 20px 0;
+    display: none;
+}
+
+#modify_book_div{
     margin: 20px 0 20px 0;
     display: none;
 }

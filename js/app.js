@@ -32,7 +32,7 @@ $(document).ready(function () {
                         divTitle.html('<span class="glyphicon glyphicon-plus btn btn-xs toggle_desc_btn"></span>&nbsp;' + data[index]['name']);
                         var divAuthor = $('<div>').addClass('author').addClass('col-xs-5');
                         divAuthor.text(data[index]['author']);
-                        var options = $('<div class="options"><span class="modify_book_btn btn btn-xs">modify</span><span class="delete_book_btn btn btn-xs">delete</span></div>').addClass('col-xs-2');
+                        var options = $('<div class="options"><span class="modify_form_btn btn btn-xs">modify</span><span class="delete_book_btn btn btn-xs">delete</span></div>').addClass('col-xs-2');
 
                         row1.append(divTitle);
                         row1.append(divAuthor);
@@ -53,7 +53,6 @@ $(document).ready(function () {
             }
         })
     }
-
 
 //toggling description of each book
     booksListContainer.on('click', '.toggle_desc_btn', function (event) {
@@ -84,9 +83,9 @@ $(document).ready(function () {
     });
 
 //hide Add Book Form
-    var hideFormButton = $('.hide_form_btn');
+    var hideAddFormButton = $('.hide_add_form_btn');
 
-    hideFormButton.on('click', function (event) {
+    hideAddFormButton.on('click', function (event) {
         addForm.slideUp();
     });
 
@@ -117,7 +116,7 @@ $(document).ready(function () {
     });
 
     //deleting Book
-    booksListContainer.on('click', '.delete_book_btn', function () {
+    booksListContainer.on('click', '.delete_book_btn', function (event) {
 
         event.stopPropagation();
         event.preventDefault();
@@ -141,7 +140,41 @@ $(document).ready(function () {
 
     });
 
+    //Open Modify Book Form with filled inputs with data from DB
 
+    var modifyBookDiv = $('#modify_book_div');
+
+    booksListContainer.on('click', '.modify_form_btn', function(event){
+
+         event.stopPropagation();
+         event.preventDefault();
+
+        var bookID = $(this).parent().parent().data('id');
+
+        $.ajax({
+            url: 'api/books.php?id=' + bookID,
+            type: 'GET',
+            dataType: 'json',
+
+            success: function (data){
+
+                //modifyBookDiv.trigger('reset');
+                //uploading data from DB and write in inputs
+
+                modifyBookDiv.find('#modify_name').attr('value', data[bookID]['name']);
+                modifyBookDiv.find('#modify_author').attr('value', data[bookID]['author']);
+                modifyBookDiv.find('#modify_book_desc').text(data[bookID]['book_desc']);
+            }
+        });
+        modifyBookDiv.slideDown();
+    })
+
+    //Hide Modify Book Form
+    var hideModifyFormButton = $('.hide_modify_form_btn');
+
+    hideModifyFormButton.on('click', function () {
+        modifyBookDiv.slideUp();
+    });
 
 
 });
