@@ -74,49 +74,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
  * Edit book
  */
 if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
-    
+
     parse_str(file_get_contents("php://input"), $put_vars);
     $id = $put_vars['id'];
-    
-    if (!(strlen(trim($put_vars['name'])) == 0)) {
-        
-        $name = $put_vars['name'];
-        
-    } else {
-        
-        $book = new Book();
-        $book->loadFromDB($id);
-        $name = $book->getName();
-        
-    }
-
-    if (!(strlen(trim($put_vars['author'])) == 0)) {
-        
-        $author = $put_vars['author'];
-        
-    } else {
-        
-        $book = new Book();
-        $book->loadFromDB($id);
-        $author = $book->getAuthor();
-        
-    }
-
-    if (!(strlen(trim($put_vars['desc'])) == 0)) {
-        
-        $desc = $put_vars['desc'];
-        
-    } else {
-        
-        $book = new Book();
-        $book->loadFromDB($id);
-        $desc = $book->getBook_desc();
-        
-    }
-
 
     $book = new Book();
     $book->loadFromDB($id);
+
+    if (!(strlen(trim($put_vars['name'])) == 0)) {
+
+        $name = $put_vars['name'];
+
+    } else {
+
+        $name = $book->getName();
+    }
+
+    if (!(strlen(trim($put_vars['author'])) == 0)) {
+
+        $author = $put_vars['author'];
+
+    } else {
+
+        $author = $book->getAuthor();
+    }
+
+    if (!(strlen(trim($put_vars['book_desc'])) == 0)) {
+
+        $desc = $put_vars['book_desc'];
+
+    } else {
+
+        $desc = $book->getBook_desc();
+    }
+
     $book->update($name, $author, $desc);
 }
 ?>

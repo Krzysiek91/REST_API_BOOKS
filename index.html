@@ -48,6 +48,7 @@
     <form action="" method="post" role="form" id="modify_book_form">
         <div class="form-wrapper">
             <div class="form-group">
+                <input type="hidden" class="form-control" name="id" id="modify_id">
                 <label>Title
                     <input type="text" class="form-control" name="name" id="modify_name" placeholder="title...">
                 </label>
@@ -60,12 +61,11 @@
                     <textarea class="form-control" name="book_desc" id="modify_book_desc" rows="4" cols="50" maxlength="255" placeholder="description..."></textarea>
                 </label>
             </div>
-            <span type="submit" class="btn modify_form_btn">modify book</span>
+            <span type="submit" class="btn modify_book_btn">modify book</span>
             <span class="btn hide_modify_form_btn">hide form</span>
         </div>
     </form>
 </div>
-
 
 <div id="separator" class="col-xs-12"> </div>
 
@@ -73,6 +73,8 @@
     <div class="books_list">
     </div>
 </div>
+
+
 <script src="js/jquery.js" type="text/javascript"></script>
 <script src="js/app.js" type="text/javascript"></script>
 </body>

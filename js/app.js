@@ -32,7 +32,7 @@ $(document).ready(function () {
                         divTitle.html('<span class="glyphicon glyphicon-plus btn btn-xs toggle_desc_btn"></span>&nbsp;' + data[index]['name']);
                         var divAuthor = $('<div>').addClass('author').addClass('col-xs-5');
                         divAuthor.text(data[index]['author']);
-                        var options = $('<div class="options"><span class="modify_form_btn btn btn-xs">modify</span><span class="delete_book_btn btn btn-xs">delete</span></div>').addClass('col-xs-2');
+                        var options = $('<div class="options"><span class="open_modify_form_btn btn btn-xs">modify</span><span class="delete_book_btn btn btn-xs">delete</span></div>').addClass('col-xs-2');
 
                         row1.append(divTitle);
                         row1.append(divAuthor);
@@ -53,6 +53,37 @@ $(document).ready(function () {
             }
         })
     }
+
+    // updating modified book
+
+    function updateBookRow(bookID){
+
+        $.ajax({
+            url: "api/books.php?id=" + bookID,
+            type: 'GET',
+            dataType: 'json',
+
+            success: function (data) {
+
+                var rowToUpdate = $('.row[data-id=' + bookID + ']');
+
+                rowToUpdate.next().hide();
+                rowToUpdate.hide();
+
+                console.log(data[bookID]['name']);
+                console.log(data[bookID]['author']);
+
+                rowToUpdate.find('.title').html('<span class="glyphicon glyphicon-plus btn btn-xs toggle_desc_btn"></span>&nbsp;' + data[bookID]['name']);
+                rowToUpdate.find('.author').text(data[bookID]['author']);
+                rowToUpdate.next().find('.description').text(data[bookID]['book_desc']);
+
+                rowToUpdate.fadeIn('slow');
+                rowToUpdate.next().fadeIn('slow');
+            }
+        });
+    }
+
+
 
 //toggling description of each book
     booksListContainer.on('click', '.toggle_desc_btn', function (event) {
@@ -144,7 +175,7 @@ $(document).ready(function () {
 
     var modifyBookDiv = $('#modify_book_div');
 
-    booksListContainer.on('click', '.modify_form_btn', function(event){
+    booksListContainer.on('click', '.open_modify_form_btn', function(event){
 
          event.stopPropagation();
          event.preventDefault();
@@ -158,9 +189,9 @@ $(document).ready(function () {
 
             success: function (data){
 
-                //modifyBookDiv.trigger('reset');
+                modifyBookDiv.trigger('reset');
                 //uploading data from DB and write in inputs
-
+                modifyBookDiv.find('#modify_id').attr('value', bookID);
                 modifyBookDiv.find('#modify_name').attr('value', data[bookID]['name']);
                 modifyBookDiv.find('#modify_author').attr('value', data[bookID]['author']);
                 modifyBookDiv.find('#modify_book_desc').text(data[bookID]['book_desc']);
@@ -169,8 +200,38 @@ $(document).ready(function () {
         modifyBookDiv.slideDown();
     })
 
+
+    //Adding modified book to DB
+
+    var modifyBookButton = $('.modify_book_btn');
+
+    modifyBookButton.on('click', function (event) {
+
+        event.preventDefault();
+
+        var modifyBookForm = $('#modify_book_form');
+
+        // Serialize a form to a query string that could be sent to a server in an Ajax request.
+        var serializedAddBookForm = modifyBookForm.serialize();
+
+        $.ajax({
+            url: "api/books.php",
+            data: serializedAddBookForm,
+            type: 'PUT',
+
+            success: function () {
+
+                var bookID = modifyBookForm.find('#modify_id').attr('value');
+                updateBookRow(bookID);
+            }
+        });
+    });
+
+
     //Hide Modify Book Form
     var hideModifyFormButton = $('.hide_modify_form_btn');
+
+    console.log(hideModifyFormButton);
 
     hideModifyFormButton.on('click', function () {
         modifyBookDiv.slideUp();
